@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net46;netstandard2.0</TargetFrameworks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Cake.Unity3D</PackageId>
+    <Title>Cake.Unity3D</Title>
+    <Summary>Unity3D addon for cake build.</Summary>
+    <Description>Cake Build addon for Unity3D.</Description>
+    <PackageTags>Cake Script Build</PackageTags>
+    <Authors>Redth</Authors>
+    <Owners>Redth</Owners>
+    <PackageProjectUrl>https://github.com/samoatesgames/Cake.Unity3D</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/samoatesgames/Cake.Unity3D/master/icon.png</PackageIconUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/samoatesgames/Cake.Unity3D/master/LICENSE.md</PackageLicenseUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Cake.Core" Version="0.26.0" />
+    <PackageReference Include="Cake.Common" Version="0.26.0" />
+  </ItemGroup>
+ 
+</Project>
