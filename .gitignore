@@ -288,3 +288,5 @@ __pycache__/
 *.xsd.cs
 /BuildArtifacts/*
 /tools/*
+/src/Cake.Unity3D.Example/Library/*
+/src/Cake.Unity3D.Example/tools/*
