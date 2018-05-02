@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Cake.Unity3D</id>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <title>Cake.Unity3D</title>
     <authors>Sam Oates (@samoatesgames)</authors>
     <owners>Sam Oates (@samoatesgames)</owners>
@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/samoatesgames/Cake.Unity3D</projectUrl>
     <licenseUrl>https://raw.githubusercontent.com/samoatesgames/Cake.Unity3D/master/LICENSE</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Unity3D build support for Cake - https://github.com/cake-build/cake</description>
+    <description>Unity3D build support for Cake - https://github.com/samoatesgames/Cake.Unity3D</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright (c) Sam Oates 2018 - Present</copyright>
     <tags>Cake Build Script Extensions Project Solution</tags>
