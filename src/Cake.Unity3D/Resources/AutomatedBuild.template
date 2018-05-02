@@ -1,0 +1,113 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using UnityEngine;
+using UnityEditor;
+using UnityEditor.Build.Reporting;
+
+namespace Cake.Unity3D
+{
+    public static class AutomatedBuild
+    {
+        /// <summary>
+        /// Main build method, this should be executed by a build system.
+        /// </summary>
+        public static void Build()
+        {
+            Debug.Log("[Cake.Unity3D] Beginning automated build");
+
+            var options = ParseCommandLineOptions();
+
+            PlayerSettings.bundleVersion = ParseOption(options, "version", PlayerSettings.bundleVersion);
+
+            var buildPlayerOptions = new BuildPlayerOptions
+            {
+                scenes = FindEnabledEditorScenes(),
+                locationPathName = ParseOption(options, "output-path", string.Empty),
+                target = ParseOption(options, "platform", BuildTarget.StandaloneWindows64),
+                options = BuildOptions.None
+            };
+
+            var report = BuildPipeline.BuildPlayer(buildPlayerOptions);
+            if (report.summary.result != BuildResult.Succeeded)
+            {
+                Debug.LogError("[Cake.Unity3D] Build Failed");
+            }
+
+            Debug.Log(report);
+            Debug.Log("[Cake.Unity3D] Automated build completed");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private static Dictionary<string, string> ParseCommandLineOptions()
+        {
+            var cmdLineArgs = Environment.GetCommandLineArgs();
+
+            var options = new Dictionary<string, string>();
+
+            // Custom arguments start with '--' and are in the format --key=value
+            var argumentRegex = new Regex(@"--(?<key>.*?)=(?<value>.*)");
+            foreach (var matchingArgument in cmdLineArgs.Select(x => argumentRegex.Match(x)).Where(x => x.Success))
+            {
+                var key = matchingArgument.Groups["key"].Value;
+                var value = matchingArgument.Groups["value"].Value;
+
+                if (options.ContainsKey(key))
+                {
+                    Debug.LogErrorFormat("[Cake.Unity3D] The command line argument '{0}' has been specified multiple times.", key);
+                    continue;
+                }
+
+                options[key] = value;
+                Debug.LogFormat("[Cake.Unity3D] Loaded option '{0}' with value '{1}'.", key, value);
+            }
+
+            return options;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="options"></param>
+        /// <param name="option"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        private static T ParseOption<T>(IDictionary<string, string> options, string option, T defaultValue)
+        {
+            string value;
+            if (!options.TryGetValue(option, out value))
+            {
+                return defaultValue;
+            }
+
+            if (typeof(T).IsEnum)
+            {
+                return (T)Enum.Parse(typeof(T), value);
+            }
+
+            if (typeof(T) == typeof(string))
+            {
+                return (T)(object)value;
+            }
+
+            return (T)Convert.ChangeType(value, typeof(T));
+        }
+
+        /// <summary>
+        /// Get a list of all scenes enabled in the editor build settings.
+        /// </summary>
+        /// <returns>All enabled scenes from the Unity editor build settings.</returns>
+        private static string[] FindEnabledEditorScenes()
+        {
+            return EditorBuildSettings.scenes
+                        .Where(x => x.enabled)
+                        .Select(x => x.path)
+                        .ToArray();
+        }
+    }
+}

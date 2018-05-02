@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2017
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.PackageManagerUI.Editor", "Unity.PackageManagerUI.Editor.csproj", "{6877705C-FBD9-0C4F-5AFB-6FB431E5D39D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cake.Unity3D.Example.Editor", "Cake.Unity3D.Example.Editor.csproj", "{C7FC2358-F804-CEA5-F2C9-F6644B12A653}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityEditor.StandardEvents", "UnityEditor.StandardEvents.csproj", "{6800202F-4402-D405-F8CB-03DC7BD78B92}"
 EndProject
 Global
@@ -15,6 +17,10 @@ Global
 		{6877705C-FBD9-0C4F-5AFB-6FB431E5D39D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6877705C-FBD9-0C4F-5AFB-6FB431E5D39D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6877705C-FBD9-0C4F-5AFB-6FB431E5D39D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7FC2358-F804-CEA5-F2C9-F6644B12A653}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7FC2358-F804-CEA5-F2C9-F6644B12A653}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7FC2358-F804-CEA5-F2C9-F6644B12A653}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7FC2358-F804-CEA5-F2C9-F6644B12A653}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6800202F-4402-D405-F8CB-03DC7BD78B92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6800202F-4402-D405-F8CB-03DC7BD78B92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6800202F-4402-D405-F8CB-03DC7BD78B92}.Release|Any CPU.ActiveCfg = Release|Any CPU

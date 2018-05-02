@@ -19,6 +19,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\AutomatedBuild.template" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\AutomatedBuild.template" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Cake.Core" Version="0.26.0" />
     <PackageReference Include="Cake.Common" Version="0.26.0" />
   </ItemGroup>

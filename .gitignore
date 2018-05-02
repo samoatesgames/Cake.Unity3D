@@ -290,3 +290,5 @@ __pycache__/
 /tools/*
 /src/Cake.Unity3D.Example/Library/*
 /src/Cake.Unity3D.Example/tools/*
+/src/Cake.Unity3D.Example/Temp/*
+/src/Cake.Unity3D.Example/Assets/Cake.Unity3D/*

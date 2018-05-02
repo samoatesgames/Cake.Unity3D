@@ -11,7 +11,7 @@ Task("Build")
 	
 	var options = new Unity3DBuildOptions()
 	{
-		Platform = Unity3DBuildPlatform.WindowsX64,
+		Platform = Unity3DBuildPlatform.StandaloneWindows64,
 		OutputPath = outputPath,
 		UnityEditorLocation = unityEditorLocation
 	};
