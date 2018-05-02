@@ -12,6 +12,7 @@
         {
             Platform = Unity3DBuildPlatform.StandaloneWindows64;
             OutputEditorLog = true;
+            ForceScriptInstall = false;
         }
 
         /// <summary>
@@ -38,5 +39,12 @@
         /// Default: true
         /// </summary>
         public bool OutputEditorLog { get; set; }
+
+        /// <summary>
+        /// Should we install the automated build script
+        /// even if we find an existing one.
+        /// Default: false
+        /// </summary>
+        public bool ForceScriptInstall { get; set; }
     }
 }

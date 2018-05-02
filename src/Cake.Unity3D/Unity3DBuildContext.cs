@@ -69,7 +69,7 @@ namespace Cake.Unity3D
         {
             // Make sure the automated build script has been copied to the Unity project.
             // The build script is a Unity script that actually invokes the build.
-            if (!ProjectHasAutomatedBuildScript(m_projectFolder.FullPath))
+            if (!ProjectHasAutomatedBuildScript(m_projectFolder.FullPath) || m_buildOptions.ForceScriptInstall)
             {
                 InstallAutomatedBuildScript(m_projectFolder.FullPath);
             }

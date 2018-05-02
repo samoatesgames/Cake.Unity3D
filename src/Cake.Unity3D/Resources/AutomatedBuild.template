@@ -30,12 +30,21 @@ namespace Cake.Unity3D
             };
 
             var report = BuildPipeline.BuildPlayer(buildPlayerOptions);
+
+#if UNITY_2018_1_OR_NEWER
             if (report.summary.result != BuildResult.Succeeded)
             {
                 Debug.LogError("[Cake.Unity3D] Build Failed");
             }
-
             Debug.Log(report);
+#else
+            if (!string.IsNullOrEmpty(report))
+            {
+                Debug.LogError("[Cake.Unity3D] Build Failed");
+                Debug.LogError(report);
+            }
+#endif
+
             Debug.Log("[Cake.Unity3D] Automated build completed");
         }
 
