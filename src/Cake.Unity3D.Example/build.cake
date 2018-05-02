@@ -1,4 +1,6 @@
 #reference "../Cake.Unity3D/bin/Debug/net46/Cake.Unity3D.dll"
+//#reference "../Cake.Unity3D/bin/Release/net46/Cake.Unity3D.dll"
+//#addin nuget:?package=Cake.Unity3D
 
 var target = Argument("target", "Build");
 
