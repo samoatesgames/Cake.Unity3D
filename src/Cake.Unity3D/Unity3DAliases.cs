@@ -1,9 +1,6 @@
-﻿using System;
-using Cake.Core.Annotations;
+﻿using Cake.Core.Annotations;
 using Cake.Core.IO;
 using Cake.Core;
-using System.IO;
-using System.Text;
 
 namespace Cake.Unity3D
 {
@@ -17,11 +14,14 @@ namespace Cake.Unity3D
         /// 
         /// </summary>
         /// <param name="context"></param>
-        /// <param name="projectFolders"></param>
+        /// <param name="projectFolder"></param>
+        /// <param name="options"></param>
         [CakeMethodAlias]
-        public static void Build(this ICakeContext context, FilePath projectFolders)
+        public static void BuildUnity3DProject(this ICakeContext context, FilePath projectFolder, Unity3DBuildOptions options)
         {
-
+            var unityBuildContext = new Unity3DBuildContext(context, projectFolder, options);
+            unityBuildContext.DumpOptions();
+            unityBuildContext.Build();
         }
     }
 }
