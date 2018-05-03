@@ -8,7 +8,9 @@ BuildParameters.SetParameters(context: Context,
                             title: "Cake.Unity3D",
                             repositoryOwner: "SamOatesGames",
                             repositoryName: "Cake.Unity3D",
-							shouldRunDupFinder: false);
+							shouldRunDupFinder: false,
+							shouldRunInspectCode: false,
+							shouldRunGitVersion: false);
 
 BuildParameters.PrintParameters(Context);
 
