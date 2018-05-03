@@ -9,7 +9,13 @@ Task("Build-Win64")
 {
 	var projectPath = System.IO.Path.GetFullPath("./");
 	var outputPath = System.IO.Path.Combine(projectPath, "_build", "x64", "example.exe");
-	var unityEditorLocation = @"C:\Program Files\Unity\Hub\Editor\2018.1.0f1\Editor\Unity.exe";
+	
+	string unityEditorLocation;
+	if (!TryGetUnityInstall("Unity 2018.1.0f1 (64-bit)", out unityEditorLocation)) 
+	{
+		Error("Failed to find 'Unity 2018.1.0f1 (64-bit)' install location");
+		return;
+	}
 	
 	var options = new Unity3DBuildOptions()
 	{
@@ -27,7 +33,13 @@ Task("Build-WebGL")
 {
 	var projectPath = System.IO.Path.GetFullPath("./");
 	var outputPath = System.IO.Path.Combine(projectPath, "_build", "webgl");
-	var unityEditorLocation = @"C:\Program Files\Unity\Hub\Editor\2018.1.0f1\Editor\Unity.exe";
+
+	string unityEditorLocation;
+	if (!TryGetUnityInstall("Unity 2018.1.0f1 (64-bit)", out unityEditorLocation)) 
+	{
+		Error("Failed to find 'Unity 2018.1.0f1 (64-bit)' install location");
+		return;
+	}
 	
 	var options = new Unity3DBuildOptions()
 	{

@@ -10,6 +10,39 @@ namespace Cake.Unity3D.Helpers
     public static class Unity3DEditor
     {
         /// <summary>
+        /// Locate all installed version of Unity3D.
+        /// Warning: This currently only works for Windows and has only been tested on Windows 10.
+        /// </summary>
+        /// <returns></returns>
+        public static Dictionary<string, string> LocateUnityInstalls()
+        {
+            var programData = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+            if (!System.IO.Directory.Exists(programData))
+            {
+                throw new Exception($"Failed to find any installed Unity3d versions. 'ProgramData' folder '{programData}' does not exist.");
+            }
+
+            var startMenuProgramsDirectory = System.IO.Path.Combine(programData, "Microsoft", "Windows", "Start Menu", "Programs");
+            if (!System.IO.Directory.Exists(startMenuProgramsDirectory))
+            {
+                throw new Exception($"Failed to find any installed Unity3d versions. Start menu programs folder '{startMenuProgramsDirectory}' does not exist.");
+            }
+
+            var installs = new Dictionary<string, string>();
+            foreach (var unityFolder in System.IO.Directory.EnumerateDirectories(startMenuProgramsDirectory, "Unity*"))
+            {
+                var unityShortcut = System.IO.Path.Combine(unityFolder, "Unity.lnk");
+                if (!System.IO.File.Exists(unityShortcut))
+                {
+                    continue;
+                }
+
+                installs.Add(new System.IO.DirectoryInfo(unityFolder).Name, WindowsShortcut.GetShortcutTarget(unityShortcut));
+            }
+            return installs;
+        }
+
+        /// <summary>
         /// Gets the absolute path to the Unity3D editor log.
         /// This presumes that Unity3D is running as a user and not a service.
         /// </summary>
