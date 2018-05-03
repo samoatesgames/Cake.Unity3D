@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Cake.Common.Diagnostics;
+using Cake.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -56,16 +58,18 @@ namespace Cake.Unity3D.Helpers
         /// <summary>
         /// Output all new log lines to the console for the specified log.
         /// </summary>
+        /// <param name="context">The active cake context.</param>
+        /// <param name="options">The active build options.</param>
         /// <param name="logLocation">The location of the log file to redirect.</param>
         /// <param name="currentLine">The line of the log of which we have already redirected.</param>
         /// <returns></returns>
-        public static int OutputLogToConsole(string logLocation, int currentLine)
+        public static bool ProcessEditorLog(ICakeContext context, Unity3DBuildOptions options, string logLocation, ref int currentLine)
         {
             // The log doesn't exist, so we can't output its contents
             // to the console.
             if (!System.IO.File.Exists(logLocation))
             {
-                return currentLine;
+                return false;
             }
 
             // Read all lines from the log.
@@ -76,17 +80,43 @@ namespace Cake.Unity3D.Helpers
             // something went wrong when reading the file.
             if (lines.Length <= currentLine)
             {
-                return currentLine;
+                return false;
             }
+
+            var hasError = false;
 
             // Output all new lines of the log.
             foreach (var line in lines.Skip(currentLine))
             {
-                Console.WriteLine(line);
+                var logType = Unity3DEditorLog.ProcessLogLine(line);
+                if (options.OutputEditorLog)
+                {
+                    switch (logType)
+                    {
+                        case Unity3DEditorLog.MessageType.Debug:
+                            context.Debug(line);
+                            break;
+                        case Unity3DEditorLog.MessageType.Info:
+                            context.Information(line);
+                            break;
+                        case Unity3DEditorLog.MessageType.Warning:
+                            context.Warning(line);
+                            break;
+                        case Unity3DEditorLog.MessageType.Error:
+                            context.Error(line);
+                            hasError |= true;
+                            break;
+                    }
+                }
+                else if (logType == Unity3DEditorLog.MessageType.Error)
+                {
+                    hasError |= true;
+                }
             }
 
             // Return the new number of lines we have redirected.
-            return lines.Length;
+            currentLine = lines.Length;
+            return hasError;
         }
 
         /// <summary>
