@@ -28,6 +28,12 @@
         public string OutputPath { get; set; }
 
         /// <summary>
+        /// A custom string used as the build version of the Unity3D project.
+        /// This will be used as the bundle version in the built application.
+        /// </summary>
+        public string BuildVersion { get; set; }
+
+        /// <summary>
         /// The location of the Unity.exe to use.
         /// Default: null
         /// </summary>

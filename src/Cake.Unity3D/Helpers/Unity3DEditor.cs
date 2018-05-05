@@ -52,6 +52,11 @@ namespace Cake.Unity3D.Helpers
         public static string GetEditorLogLocation()
         {
             var localAppdata = Environment.GetEnvironmentVariable("LocalAppData");
+            if (string.IsNullOrEmpty(localAppdata))
+            {
+                throw new Exception("Failed to find the 'LocalAppData' directory.");
+            }
+
             return System.IO.Path.Combine(localAppdata, "Unity", "Editor", "Editor.log");
         }
 
@@ -104,13 +109,13 @@ namespace Cake.Unity3D.Helpers
                             break;
                         case Unity3DEditorLog.MessageType.Error:
                             context.Error(line);
-                            hasError |= true;
+                            hasError = true;
                             break;
                     }
                 }
                 else if (logType == Unity3DEditorLog.MessageType.Error)
                 {
-                    hasError |= true;
+                    hasError = true;
                 }
             }
 

@@ -67,7 +67,8 @@ Task("Build")
 		Platform = Unity3DBuildPlatform.StandaloneWindows64,
 		OutputPath = outputPath,
 		UnityEditorLocation = unityEditorLocation,
-		ForceScriptInstall = true
+		ForceScriptInstall = true,
+		BuildVersion = "1.0.0"
 	};
 	
 	// Perform the Unity3d build.

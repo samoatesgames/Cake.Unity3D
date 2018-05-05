@@ -39,9 +39,19 @@ namespace Cake.Unity3D
             m_projectFolder = projectFolder;
             m_buildOptions = options;
 
+            if (string.IsNullOrEmpty(options.OutputPath))
+            {
+                throw new Exception("The output path build option must be set.");
+            }
+
             if (options.OutputPath.Contains(" "))
             {
                 throw new Exception("The output path can not contain any spaces.");
+            }
+
+            if (options.BuildVersion.Contains(" "))
+            {
+                throw new Exception("The build version can not contain any spaces.");
             }
 
             if (!System.IO.File.Exists(options.UnityEditorLocation))
@@ -58,7 +68,10 @@ namespace Cake.Unity3D
             Console.WriteLine($"ProjectPlatform: {m_projectFolder}");
             Console.WriteLine($"Platform: {m_buildOptions.Platform}");
             Console.WriteLine($"OutputPath: {m_buildOptions.OutputPath}");
+            Console.WriteLine($"BuildVersion: {m_buildOptions.BuildVersion}");
             Console.WriteLine($"UnityEditorLocation: {m_buildOptions.UnityEditorLocation}");
+            Console.WriteLine($"OutputEditorLog: {m_buildOptions.OutputEditorLog}");
+            Console.WriteLine($"ForceScriptInstall: {m_buildOptions.ForceScriptInstall}");
         }
 
         /// <summary>
@@ -68,21 +81,26 @@ namespace Cake.Unity3D
         {
             // Make sure the automated build script has been copied to the Unity project.
             // The build script is a Unity script that actually invokes the build.
-            if (!ProjectHasAutomatedBuildScript(m_projectFolder.FullPath) || m_buildOptions.ForceScriptInstall)
+            if (!ProjectHasAutomatedBuildScript() || m_buildOptions.ForceScriptInstall)
             {
-                InstallAutomatedBuildScript(m_projectFolder.FullPath);
+                InstallAutomatedBuildScript();
             }
 
             // The command line arguments to use.
             // All options which start with duel hyphens are used internally by
             // the automated build script.
-            var buildArguments = 
+            var buildArguments =
                 "-batchmode " +
                 "-quit " +
                 $"-projectPath \"{m_projectFolder.FullPath}\" " +
-                $"-executeMethod Cake.Unity3D.AutomatedBuild.Build " +
+                "-executeMethod Cake.Unity3D.AutomatedBuild.Build " +
                 $"--output-path={m_buildOptions.OutputPath} " +
                 $"--platform={m_buildOptions.Platform} ";
+
+            if (!string.IsNullOrEmpty(m_buildOptions.BuildVersion))
+            {
+                buildArguments += $"--version={m_buildOptions.BuildVersion} ";
+            }
 
             // Create the process using the Unity editor and arguments above.
             var process = new Process()
@@ -129,9 +147,8 @@ namespace Cake.Unity3D
         /// <summary>
         /// Gets the path to the automated build script within a provided Unity3D project path.
         /// </summary>
-        /// <param name="projectDirectory">The absolute path to the Unity3D project which should contain the build script.</param>
         /// <returns>The absolute path to the automated build script.</returns>
-        private string GetAutomatedBuildScriptPath(string projectDirectory)
+        private string GetAutomatedBuildScriptPath()
         {
             return System.IO.Path.Combine(m_projectFolder.FullPath, "Assets", "Cake.Unity3D", "Editor", "AutomatedBuild.cs");
         }
@@ -139,22 +156,20 @@ namespace Cake.Unity3D
         /// <summary>
         /// Checks to see if the provided project has the automated build script already.
         /// </summary>
-        /// <param name="projectDirectory">The absolute path to the Unity3D project which should contain the build script.</param>
         /// <returns>True if the build script already exists.</returns>
-        private bool ProjectHasAutomatedBuildScript(string projectDirectory)
+        private bool ProjectHasAutomatedBuildScript()
         {
-            return System.IO.File.Exists(GetAutomatedBuildScriptPath(projectDirectory));
+            return System.IO.File.Exists(GetAutomatedBuildScriptPath());
         }
 
         /// <summary>
         /// Extract the embedded automated build script resource to the Unity3D project.
         /// </summary>
-        /// <param name="projectDirectory">The absolute path to the Unity3D project which should contain the build script.</param>
-        private void InstallAutomatedBuildScript(string projectDirectory)
+        private void InstallAutomatedBuildScript()
         {
             Console.WriteLine("Installing AutomatedBuild Script...");
 
-            var path = GetAutomatedBuildScriptPath(projectDirectory);
+            var path = GetAutomatedBuildScriptPath();
 
             // Make sure the directories required for the script exist.
             var installDirectory = System.IO.Path.GetDirectoryName(path);
@@ -164,8 +179,14 @@ namespace Cake.Unity3D
             }
 
             // Extract the embedded resource to the Unity3D project provided.
-            using (var resource = Assembly.GetExecutingAssembly().GetManifestResourceStream("Cake.Unity3D.Resources.AutomatedBuild.template"))
+            var resourceName = "Cake.Unity3D.Resources.AutomatedBuild.template";
+            using (var resource = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
             {
+                if (resource == null)
+                {
+                    throw new Exception($"Failed to find the embedded resource '{resourceName}'");
+                }
+
                 using (var file = new System.IO.FileStream(path, System.IO.FileMode.Create, System.IO.FileAccess.Write))
                 {
                     resource.CopyTo(file);
