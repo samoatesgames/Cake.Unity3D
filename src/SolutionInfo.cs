@@ -7,7 +7,7 @@ using System.Reflection;
 
 [assembly: AssemblyCompany("SamOatesGames")]
 [assembly: AssemblyProduct("Cake.Unity3D")]
-[assembly: AssemblyVersion("0.3.1")]
-[assembly: AssemblyFileVersion("0.3.1")]
-[assembly: AssemblyInformationalVersion("0.3.1")]
+[assembly: AssemblyVersion("0.4.0")]
+[assembly: AssemblyFileVersion("0.4.0")]
+[assembly: AssemblyInformationalVersion("0.4.0")]
 [assembly: AssemblyCopyright("Copyright © SamOatesGames 2018 - Present")]
