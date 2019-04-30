@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <package>
   <metadata>
     <id>Cake.Unity3D</id>
@@ -6,7 +6,7 @@
     <title>Cake.Unity3D</title>
     <authors>Sam Oates (@samoatesgames)</authors>
     <owners>Sam Oates (@samoatesgames)</owners>
-    <iconUrl>https://raw.githubusercontent.com/samoatesgames/Cake.Unity3D/master/resources/icon-medium.png</iconUrl>
+    <iconUrl>https://cdn.jsdelivr.net/gh/cake-contrib/graphics/png/cake-contrib-medium.png</iconUrl>
     <projectUrl>https://github.com/samoatesgames/Cake.Unity3D</projectUrl>
     <licenseUrl>https://raw.githubusercontent.com/samoatesgames/Cake.Unity3D/master/LICENSE</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
