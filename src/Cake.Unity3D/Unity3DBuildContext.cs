@@ -49,7 +49,7 @@ namespace Cake.Unity3D
                 throw new Exception("The output path can not contain any spaces.");
             }
 
-            if (options.BuildVersion.Contains(" "))
+            if (options.BuildVersion != null && options.BuildVersion.Contains(" "))
             {
                 throw new Exception("The build version can not contain any spaces.");
             }
@@ -103,7 +103,7 @@ namespace Cake.Unity3D
             }
 
             // Create the process using the Unity editor and arguments above.
-            var process = new Process()
+            using (var process = new Process()
             {
                 StartInfo = new ProcessStartInfo()
                 {
@@ -112,35 +112,37 @@ namespace Cake.Unity3D
                     CreateNoWindow = true,
                     UseShellExecute = false
                 }
-            };
-
-            Console.WriteLine($"Running: \"{m_buildOptions.UnityEditorLocation}\" {buildArguments}");
-
-            // Unity will output to a log, and not to the console.
-            // So we have to periodically parse the log and redirect the output to the console.
-            // We do this by storing how far through the log we have already seen and outputting
-            // the remaining lines. This works because Unity flushes in full lines, so we should
-            // always have a full line to output.
-            var outputLineIndex = 0;
-            var logLocation = Unity3DEditor.GetEditorLogLocation();
-
-            // Start the process.
-            process.Start();
-
-            // Will be set to true if an error is detected within the Unity editor log.
-            var logReportedError = false;
-
-            // Whilst the process is still running, periodically redirect the editor log
-            // to the console if required.
-            while (!process.HasExited)
+            })
             {
-                System.Threading.Thread.Sleep(100);
-                logReportedError |= Unity3DEditor.ProcessEditorLog(m_cakeContext, m_buildOptions, logLocation, ref outputLineIndex);
-            }
+                Console.WriteLine($"Running: \"{m_buildOptions.UnityEditorLocation}\" {buildArguments}");
 
-            if (logReportedError)
-            {
-                throw new Exception("An error was reported in the Unity3D editor log.");
+                // Unity will output to a log, and not to the console.
+                // So we have to periodically parse the log and redirect the output to the console.
+                // We do this by storing how far through the log we have already seen and outputting
+                // the remaining lines. This works because Unity flushes in full lines, so we should
+                // always have a full line to output.
+                var outputLineIndex = 0;
+                var logLocation = Unity3DEditor.GetEditorLogLocation();
+
+                // Start the process.
+                process.Start();
+
+                // Will be set to true if an error is detected within the Unity editor log.
+                var logReportedError = false;
+
+                // Whilst the process is still running, periodically redirect the editor log
+                // to the console if required.
+                while (!process.HasExited)
+                {
+                    System.Threading.Thread.Sleep(100);
+                    logReportedError |= Unity3DEditor.ProcessEditorLog(m_cakeContext, m_buildOptions, logLocation,
+                        ref outputLineIndex);
+                }
+
+                if (logReportedError)
+                {
+                    throw new Exception("An error was reported in the Unity3D editor log.");
+                }
             }
         }
 
