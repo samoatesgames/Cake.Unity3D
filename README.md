@@ -4,6 +4,9 @@
 
 Unity3D build support for Cake (https://github.com/cake-build/cake).
 
+[![GitHub](https://img.shields.io/github/license/samoatesgames/Cake.Unity3D.svg?style=flat-square)](https://github.com/samoatesgames/Cake.Unity3D/blob/master/LICENSE)
+[![Nuget](https://img.shields.io/nuget/dt/Cake.Unity3D.svg?label=Nuget&style=flat-square)](https://www.nuget.org/packages/Cake.Unity3D/)
+
 ### Methods
 
 ```csharp
