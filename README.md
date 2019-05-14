@@ -37,6 +37,17 @@ public static Dictionary<string, string> GetAllUnityInstalls(this ICakeContext c
 public static bool TryGetUnityInstall(this ICakeContext context, string version, out string installPath)
 ```
 
+```csharp
+/// <summary>
+/// Try and get the absolute install path for a specific Unity3D version.
+/// </summary>
+/// <param name="context">The active cake context.</param>
+/// <param name="projectPath">The absolute path to the Unity3D project we want to get the Unity3D version for.</param>
+/// <param name="unityVersion">If found the name of the Unity3D version used for the project.</param>
+/// <returns>True if the editor version was found, false otherwise.</returns>
+public static bool TryGetUnityVersionForProject(this ICakeContext context, string projectPath, out string unityVersion)
+```
+
 ## Example
 
 ```csharp
@@ -53,11 +64,19 @@ Task("Build")
 	// The location we want the build application to go
 	var outputPath = System.IO.Path.Combine(projectPath, "_build", "x64", "example.exe");
 	
-	// Get the absolute path to the 2018.1.0f1 Unity3D editor.
-	string unityEditorLocation;
-	if (!TryGetUnityInstall("Unity 2018.1.0f1 (64-bit)", out unityEditorLocation)) 
+	// Get the version of Unity used by the Unity project
+	string unityEditorVersion;
+	if (!TryGetUnityVersionForProject(projectPath, out unityEditorVersion))
 	{
-		Error("Failed to find 'Unity 2018.1.0f1 (64-bit)' install location");
+		Error($"Failed to find Unity version for the project '{projectPath}'");
+		return;
+	}
+	
+	// Get the absolute path to the Unity3D editor.
+	string unityEditorLocation;
+	if (!TryGetUnityInstall(unityEditorVersion, out unityEditorLocation)) 
+	{
+		Error($"Failed to find '{unityEditorVersion}' install location");
 		return;
 	}
 	
