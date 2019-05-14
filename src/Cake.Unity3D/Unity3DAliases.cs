@@ -1,4 +1,5 @@
-﻿using Cake.Core.Annotations;
+﻿using System;
+using Cake.Core.Annotations;
 using Cake.Core.IO;
 using Cake.Core;
 using System.Collections.Generic;
@@ -48,7 +49,53 @@ namespace Cake.Unity3D
         public static bool TryGetUnityInstall(this ICakeContext context, string version, out string installPath)
         {
             var installs = context.GetAllUnityInstalls();
-            return installs.TryGetValue(version, out installPath);
+            if (installs.TryGetValue(version, out installPath))
+            {
+                return true;
+            }
+
+            var lowerVersion = version.ToLower();
+            foreach (var install in installs)
+            {
+                if (install.Key.ToLower().Contains(lowerVersion))
+                {
+                    installPath = install.Value;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Try and get the absolute install path for a specific Unity3D version.
+        /// </summary>
+        /// <param name="context">The active cake context.</param>
+        /// <param name="projectPath">The absolute path to the Unity3D project we want to get the Unity3D version for.</param>
+        /// <param name="unityVersion">If found the name of the Unity3D version used for the project.</param>
+        /// <returns>True if the editor version was found, false otherwise.</returns>
+        [CakeMethodAlias]
+        public static bool TryGetUnityVersionForProject(this ICakeContext context, string projectPath, out string unityVersion)
+        {
+            unityVersion = null;
+
+            var projectVersionFile = System.IO.Path.Combine(projectPath, "ProjectSettings", "ProjectVersion.txt");
+            if (!System.IO.File.Exists(projectVersionFile))
+            {
+                return false;
+            }
+
+            var contents = System.IO.File.ReadAllLines(projectVersionFile);
+            foreach (var line in contents)
+            {
+                if (line.StartsWith("m_EditorVersion: "))
+                {
+                    unityVersion = line.Substring("m_EditorVersion: ".Length);
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
