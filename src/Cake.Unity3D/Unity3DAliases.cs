@@ -68,7 +68,7 @@ namespace Cake.Unity3D
         }
 
         /// <summary>
-        /// Try and get the absolute install path for a specific Unity3D version.
+        /// Try and get the version of Unity3D a specified project uses.
         /// </summary>
         /// <param name="context">The active cake context.</param>
         /// <param name="projectPath">The absolute path to the Unity3D project we want to get the Unity3D version for.</param>
