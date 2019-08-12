@@ -8,11 +8,12 @@
     <owners>Sam Oates (@samoatesgames)</owners>
     <iconUrl>https://cdn.jsdelivr.net/gh/cake-contrib/graphics/png/cake-contrib-medium.png</iconUrl>
     <projectUrl>https://github.com/samoatesgames/Cake.Unity3D</projectUrl>
-    <licenseUrl>https://raw.githubusercontent.com/samoatesgames/Cake.Unity3D/master/LICENSE</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Unity3D build support for Cake - https://github.com/samoatesgames/Cake.Unity3D</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright (c) Sam Oates 2018 - Present</copyright>
+    <license type="expression">MIT</license>
+    <repository type="git" url="https://github.com/samoatesgames/Cake.Unity3D.git"/>
     <tags>Cake Build Script Extensions Project Solution</tags>
   </metadata>
   <files>
