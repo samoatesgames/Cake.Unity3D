@@ -14,4 +14,4 @@ BuildParameters.SetParameters(context: Context,
 
 BuildParameters.PrintParameters(Context);
 
-Build.Run();
+Build.RunDotNetCore();
