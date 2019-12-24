@@ -21,6 +21,16 @@ public static void BuildUnity3DProject(this ICakeContext context, FilePath proje
 
 ```csharp
 /// <summary>
+/// Test a provided Unity3D project with the specified test options.
+/// </summary>
+/// <param name="context">The active cake context.</param>
+/// <param name="projectFolder">The absolute path to the Unity3D project to test.</param>
+/// <param name="options">The test options to use when testing the project.</param>
+public static void TestUnity3DProject(this ICakeContext context, FilePath projectFolder, Unity3DTestOptions options)
+```
+
+```csharp
+/// <summary>
 /// Locate all installed version of Unity3D.
 /// Warning: This currently only works for Windows and has only been tested on Windows 10.
 /// </summary>
@@ -52,6 +62,8 @@ public static bool TryGetUnityVersionForProject(this ICakeContext context, strin
 ```
 
 ## Example
+
+#### Building a Project
 
 ```csharp
 #addin nuget:?package=Cake.Unity3D
@@ -95,6 +107,53 @@ Task("Build")
 	
 	// Perform the Unity3d build.
 	BuildUnity3DProject(projectPath, options);
+});
+
+RunTarget(target);
+```
+
+#### Testing a Project
+
+```csharp
+#addin nuget:?package=Cake.Unity3D
+
+var target = Argument("target", "Test");
+
+Task("Test")
+  .Does(() =>
+{
+	// Presuming the build.cake file is within the Unity3D project folder.
+	var projectPath = System.IO.Path.GetFullPath("./");
+	
+	// The location we want the test results to be output to (if this isn't specified the file will be output to 'test_results.xml' in the root Unity Project folder)
+	var testResultsOutputPath = System.IO.Path.Combine(projectPath, "_test_results.xml");
+	
+	// Get the version of Unity used by the Unity project
+	string unityEditorVersion;
+	if (!TryGetUnityVersionForProject(projectPath, out unityEditorVersion))
+	{
+		Error($"Failed to find Unity version for the project '{projectPath}'");
+		return;
+	}
+	
+	// Get the absolute path to the Unity3D editor.
+	string unityEditorLocation;
+	if (!TryGetUnityInstall(unityEditorVersion, out unityEditorLocation)) 
+	{
+		Error($"Failed to find '{unityEditorVersion}' install location");
+		return;
+	}
+	
+	// Create our test options.
+	var options = new Unity3DTestOptions()
+	{
+		TestMode = Unity3DTestMode.EditMode,
+		TestResultOutputPath = testResultsOutputPath,
+		UnityEditorLocation = unityEditorLocation
+	};
+	
+	// Perform the Unity3d test.
+	TestUnity3DProject(projectPath, options);
 });
 
 RunTarget(target);
