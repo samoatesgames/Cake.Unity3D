@@ -292,3 +292,4 @@ tools/**
 /src/Cake.Unity3D.Example/tools/*
 /src/Cake.Unity3D.Example/Temp/*
 /src/Cake.Unity3D.Example/Assets/Cake.Unity3D/*
+/src/Cake.Unity3D.Example/_test_results.xml

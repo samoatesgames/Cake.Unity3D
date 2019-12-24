@@ -77,4 +77,40 @@ Task("Build-WebGL")
 	BuildUnity3DProject(projectPath, options);
 });
 
+Task("Test-EditMode")
+  .Does(() =>
+{
+	var projectPath = System.IO.Path.GetFullPath("./");
+	var outputPath = System.IO.Path.Combine(projectPath, "_test_results.xml");
+	
+	string unityEditorVersion;
+	if (!TryGetUnityVersionForProject(projectPath, out unityEditorVersion))
+	{
+		Error($"Failed to find Unity version for the project '{projectPath}'");
+		return;
+	}
+	
+	string unityEditorLocation;
+	if (!TryGetUnityInstall(unityEditorVersion, out unityEditorLocation))
+	{
+		Error($"Failed to find '{unityEditorVersion}' install location, installed versions are:");
+		foreach(var version in GetAllUnityInstalls().Keys)
+		{
+			Error($" - {version}");
+		}
+		return;
+	}
+	
+	Information($"Using Unity editor located at '{unityEditorLocation}'");
+	
+	var options = new Unity3DTestOptions()
+	{
+		TestMode = Unity3DTestMode.EditMode,
+		TestResultOutputPath = outputPath,
+		UnityEditorLocation = unityEditorLocation
+	};
+	
+	TestUnity3DProject(projectPath, options);
+});
+
 RunTarget(target);
