@@ -64,11 +64,11 @@ namespace Cake.Unity3D.Helpers
         /// Output all new log lines to the console for the specified log.
         /// </summary>
         /// <param name="context">The active cake context.</param>
-        /// <param name="options">The active build options.</param>
+        /// <param name="outputEditorLog">Should the log be forward to the standard cake context output.</param>
         /// <param name="logLocation">The location of the log file to redirect.</param>
         /// <param name="currentLine">The line of the log of which we have already redirected.</param>
         /// <returns></returns>
-        public static bool ProcessEditorLog(ICakeContext context, Unity3DBuildOptions options, string logLocation, ref int currentLine)
+        public static bool ProcessEditorLog(ICakeContext context, bool outputEditorLog, string logLocation, ref int currentLine)
         {
             // The log doesn't exist, so we can't output its contents
             // to the console.
@@ -94,7 +94,7 @@ namespace Cake.Unity3D.Helpers
             foreach (var line in lines.Skip(currentLine))
             {
                 var logType = Unity3DEditorLog.ProcessLogLine(line);
-                if (options.OutputEditorLog)
+                if (outputEditorLog)
                 {
                     switch (logType)
                     {

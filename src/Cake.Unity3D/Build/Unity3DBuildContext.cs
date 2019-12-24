@@ -135,7 +135,10 @@ namespace Cake.Unity3D
                 while (!process.HasExited)
                 {
                     System.Threading.Thread.Sleep(100);
-                    logReportedError |= Unity3DEditor.ProcessEditorLog(m_cakeContext, m_buildOptions, logLocation,
+                    logReportedError |= Unity3DEditor.ProcessEditorLog(
+                        m_cakeContext, 
+                        m_buildOptions.OutputEditorLog, 
+                        logLocation,
                         ref outputLineIndex);
                 }
 

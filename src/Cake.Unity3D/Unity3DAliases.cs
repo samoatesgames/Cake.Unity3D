@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Cake.Core;
 using Cake.Core.Annotations;
 using Cake.Core.IO;
-using Cake.Core;
 using System.Collections.Generic;
 
 namespace Cake.Unity3D
@@ -24,6 +23,20 @@ namespace Cake.Unity3D
             var unityBuildContext = new Unity3DBuildContext(context, projectFolder, options);
             unityBuildContext.DumpOptions();
             unityBuildContext.Build();
+        }
+
+        /// <summary>
+        /// Test a provided Unity3D project with the specified test options.
+        /// </summary>
+        /// <param name="context">The active cake context.</param>
+        /// <param name="projectFolder">The absolute path to the Unity3D project to test.</param>
+        /// <param name="options">The test options to use when testing the project.</param>
+        [CakeMethodAlias]
+        public static void TestUnity3DProject(this ICakeContext context, FilePath projectFolder, Unity3DTestOptions options)
+        {
+            var unityTestContext = new Unity3DTestContext(context, projectFolder, options);
+            unityTestContext.DumpOptions();
+            unityTestContext.Test();
         }
 
         /// <summary>
