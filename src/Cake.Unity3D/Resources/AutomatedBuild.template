@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEditor;
 
@@ -57,28 +56,106 @@ namespace Cake.Unity3D
         /// <returns></returns>
         private static Dictionary<string, string> ParseCommandLineOptions()
         {
-            var cmdLineArgs = Environment.GetCommandLineArgs();
+            var cmdLineArgs = Environment.CommandLine;
+            Debug.Log($"[Cake.Unity3D] Paring the command line '{cmdLineArgs}'");
 
             var options = new Dictionary<string, string>();
 
-            // Custom arguments start with '--' and are in the format --key=value
-            var argumentRegex = new Regex(@"--(?<key>.*?)=(?<value>.*)");
-            foreach (var matchingArgument in cmdLineArgs.Select(x => argumentRegex.Match(x)).Where(x => x.Success))
-            {
-                var key = matchingArgument.Groups["key"].Value;
-                var value = matchingArgument.Groups["value"].Value;
+            var optionKey = "";
+            var optionValue = "";
 
-                if (options.ContainsKey(key))
+            var parsingKey = false;
+            var parsingValue = false;
+            var isValueQuoted = false;
+
+            var lastChar = default(char);
+            for (var index = 0; index < cmdLineArgs.Length; ++index)
+            {
+                var c = cmdLineArgs[index];
+
+                if (parsingKey)
                 {
-                    Debug.LogErrorFormat("[Cake.Unity3D] The command line argument '{0}' has been specified multiple times.", key);
+                    // Parse until we find an '=', at which point we want to parse the value
+                    if (c == '=')
+                    {
+                        parsingValue = true;
+                        parsingKey = false;
+                        isValueQuoted = cmdLineArgs[index + 1] == '\"';
+                        if (isValueQuoted)
+                        {
+                            index++;
+                        }
+                        lastChar = c;
+                        continue;
+                    }
+
+                    optionKey += c;
+                    lastChar = c;
                     continue;
                 }
 
-                options[key] = value;
-                Debug.LogFormat("[Cake.Unity3D] Loaded option '{0}' with value '{1}'.", key, value);
+                if (parsingValue)
+                {
+                    if (isValueQuoted && c == '\"')
+                    {
+                        parsingValue = false;
+                        TryAddOption(options, optionKey, optionValue);
+                        lastChar = c;
+                        continue;
+                    }
+
+                    if (!isValueQuoted && c == ' ')
+                    {
+                        parsingValue = false;
+                        TryAddOption(options, optionKey, optionValue);
+                        lastChar = c;
+                        continue;
+                    }
+
+                    optionValue += c;
+                    lastChar = c;
+                    continue;
+                }
+
+                if (c == '-' && lastChar == '-')
+                {
+                    // Start of a custom argument
+                    parsingKey = true;
+                    optionKey = "";
+                    optionValue = "";
+                    lastChar = c;
+                    continue;
+                }
+
+                lastChar = c;
+            }
+
+            if (parsingValue)
+            {
+                // Make sure we add the last thing we were parsing
+                TryAddOption(options, optionKey, optionValue);
             }
 
             return options;
+        }
+
+        /// <summary>
+        /// Attempt to add a key and value to our options dictionary.
+        /// Logging out what happened
+        /// </summary>
+        /// <param name="options"></param>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        private static void TryAddOption(Dictionary<string, string> options, string key, string value)
+        {
+            if (options.ContainsKey(key))
+            {
+                Debug.LogErrorFormat("[Cake.Unity3D] The command line argument '{0}' has been specified multiple times.", key);
+                return;
+            }
+
+            options[key] = value;
+            Debug.LogFormat("[Cake.Unity3D] Loaded option '{0}' with value '{1}'.", key, value);
         }
 
         /// <summary>

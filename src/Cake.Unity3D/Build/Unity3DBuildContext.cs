@@ -44,11 +44,6 @@ namespace Cake.Unity3D
                 throw new Exception("The output path build option must be set.");
             }
 
-            if (options.OutputPath.Contains(" "))
-            {
-                throw new Exception("The output path can not contain any spaces.");
-            }
-
             if (options.BuildVersion != null && options.BuildVersion.Contains(" "))
             {
                 throw new Exception("The build version can not contain any spaces.");
@@ -67,7 +62,7 @@ namespace Cake.Unity3D
         {
             Console.WriteLine($"ProjectPlatform: {m_projectFolder}");
             Console.WriteLine($"Platform: {m_buildOptions.Platform}");
-            Console.WriteLine($"OutputPath: {m_buildOptions.OutputPath}");
+            Console.WriteLine($"OutputPath: \"{m_buildOptions.OutputPath}\"");
             Console.WriteLine($"BuildVersion: {m_buildOptions.BuildVersion}");
             Console.WriteLine($"UnityEditorLocation: {m_buildOptions.UnityEditorLocation}");
             Console.WriteLine($"OutputEditorLog: {m_buildOptions.OutputEditorLog}");
@@ -94,7 +89,7 @@ namespace Cake.Unity3D
                 "-quit " +
                 $"-projectPath \"{m_projectFolder.FullPath}\" " +
                 "-executeMethod Cake.Unity3D.AutomatedBuild.Build " +
-                $"--output-path={m_buildOptions.OutputPath} " +
+                $"--output-path=\"{m_buildOptions.OutputPath}\" " +
                 $"--platform={m_buildOptions.Platform} ";
 
             if (!string.IsNullOrEmpty(m_buildOptions.BuildVersion))
