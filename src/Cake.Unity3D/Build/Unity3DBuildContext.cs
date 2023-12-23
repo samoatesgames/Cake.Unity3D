@@ -87,6 +87,7 @@ namespace Cake.Unity3D
             var buildArguments =
                 "-batchmode " +
                 "-quit " +
+                "-nographics " +
                 $"-projectPath \"{m_projectFolder.FullPath}\" " +
                 "-executeMethod Cake.Unity3D.AutomatedBuild.Build " +
                 $"--output-path=\"{m_buildOptions.OutputPath}\" " +

@@ -71,6 +71,7 @@ namespace Cake.Unity3D
             var testArguments =
                 "-batchmode " +
                 "-runTests " +
+                "-nographics " +
                 $"-projectPath \"{m_projectFolder.FullPath}\" " +
                 $"-testPlatform {m_testOptions.TestMode.ToString().ToLower()} " +
                 $"-testResults \"{m_testOptions.TestResultOutputPath}\"";
