@@ -79,6 +79,7 @@ namespace Cake.Unity3D
             if (m_testOptions.EnableCodeCoverage)
             {
                 testArguments += " -enableCodeCoverage";
+                testArguments += " coverageOptions enableCyclomaticComplexity;generateHtmlReport;generateBadgeReport;assemblyFilters:-Assembly-CSharp*";
             }
 
             if (System.IO.File.Exists(m_testOptions.TestResultOutputPath))
