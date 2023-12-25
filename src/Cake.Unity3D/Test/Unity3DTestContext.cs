@@ -76,6 +76,11 @@ namespace Cake.Unity3D
                 $"-testPlatform {m_testOptions.TestMode.ToString().ToLower()} " +
                 $"-testResults \"{m_testOptions.TestResultOutputPath}\"";
 
+            if (m_testOptions.EnableCodeCoverage)
+            {
+                testArguments += " -enableCodeCoverage";
+            }
+
             if (System.IO.File.Exists(m_testOptions.TestResultOutputPath))
             {
                 try

@@ -38,5 +38,10 @@
         /// Default: true
         /// </summary>
         public bool OutputEditorLog { get; set; }
+        
+        /// <summary>
+        /// Should the build produce a code coverage report.
+        /// </summary>
+        public bool EnableCodeCoverage { get; set; }
     }
 }

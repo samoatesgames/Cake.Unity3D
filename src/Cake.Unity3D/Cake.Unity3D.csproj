@@ -18,6 +18,11 @@
     <PackageLicenseUrl>https://raw.githubusercontent.com/samoatesgames/Cake.Unity3D/master/LICENSE.md</PackageLicenseUrl>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <VersionPrefix>1.1.0</VersionPrefix>
+    <VersionSuffix>alpha</VersionSuffix>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="Resources\AutomatedBuild.template" />
   </ItemGroup>
