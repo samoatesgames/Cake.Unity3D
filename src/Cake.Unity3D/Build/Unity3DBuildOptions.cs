@@ -1,4 +1,4 @@
-﻿namespace Cake.Unity3D
+﻿namespace Cake.Unity3D.Build
 {
     /// <summary>
     /// All build options available when performing a Unity3D build.

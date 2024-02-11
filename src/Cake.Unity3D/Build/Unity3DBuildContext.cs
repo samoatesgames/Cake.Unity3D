@@ -5,7 +5,7 @@ using Cake.Core;
 using Cake.Core.IO;
 using Cake.Unity3D.Helpers;
 
-namespace Cake.Unity3D
+namespace Cake.Unity3D.Build
 {
     /// <summary>
     /// The core build context for the a Unity3D project.

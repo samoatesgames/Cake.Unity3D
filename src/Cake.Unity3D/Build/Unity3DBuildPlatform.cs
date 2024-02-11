@@ -1,4 +1,4 @@
-﻿namespace Cake.Unity3D
+﻿namespace Cake.Unity3D.Build
 {
     /// <summary>
     /// All support build target platforms.

@@ -2,6 +2,8 @@
 using Cake.Core.Annotations;
 using Cake.Core.IO;
 using System.Collections.Generic;
+using Cake.Unity3D.Build;
+using Cake.Unity3D.Test;
 
 namespace Cake.Unity3D
 {

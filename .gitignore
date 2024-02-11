@@ -296,3 +296,8 @@ tools/**
 
 # mac files
 .DS_Store
+
+# ncrunch files
+.ncrunchsolution
+.ncrunchproject
+*.ncrunch*

@@ -1,12 +1,12 @@
-﻿using Cake.Core;
-using Cake.Core.IO;
-using Cake.Unity3D.Helpers;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Xml.Linq;
 using Cake.Common.Diagnostics;
+using Cake.Core;
+using Cake.Core.IO;
+using Cake.Unity3D.Helpers;
 
-namespace Cake.Unity3D
+namespace Cake.Unity3D.Test
 {
     /// <summary>
     /// The core test context for the a Unity3D project.

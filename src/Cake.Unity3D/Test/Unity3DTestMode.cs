@@ -1,4 +1,4 @@
-﻿namespace Cake.Unity3D
+﻿namespace Cake.Unity3D.Test
 {
     /// <summary>
     /// All support test modes.
