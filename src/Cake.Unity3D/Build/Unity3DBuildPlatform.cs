@@ -18,6 +18,16 @@
         /// <summary>
         /// Build a WebGL build.
         /// </summary>
-        WebGL
+        WebGL,
+
+        /// <summary>
+        /// Build an Android build.
+        /// </summary>
+        Android,
+
+        /// <summary>
+        /// Build an iOS build.
+        /// </summary>
+        iOS,
     }
 }
