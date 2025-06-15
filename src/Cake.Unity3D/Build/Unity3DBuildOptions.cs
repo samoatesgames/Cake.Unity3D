@@ -34,6 +34,11 @@
         public string BuildVersion { get; set; }
 
         /// <summary>
+        /// A number between 0 and 10000 used primarily for the Android version code.
+        /// </summary>
+        public string BuildVersionCode { get; set; }
+
+        /// <summary>
         /// The location of the Unity.exe to use.
         /// Default: null
         /// </summary>

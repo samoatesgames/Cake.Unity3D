@@ -49,6 +49,11 @@ namespace Cake.Unity3D
                 throw new Exception("The build version can not contain any spaces.");
             }
 
+            if (options.BuildVersionCode != null && !int.TryParse(options.BuildVersionCode, out _))
+            {
+                throw new Exception("The build version code must be a valid integer.");
+            }
+
             if (!System.IO.File.Exists(options.UnityEditorLocation))
             {
                 throw new Exception($"The Unity Editor location '{options.UnityEditorLocation}' does not exist.");
@@ -64,6 +69,7 @@ namespace Cake.Unity3D
             Console.WriteLine($"Platform: {m_buildOptions.Platform}");
             Console.WriteLine($"OutputPath: \"{m_buildOptions.OutputPath}\"");
             Console.WriteLine($"BuildVersion: {m_buildOptions.BuildVersion}");
+            Console.WriteLine($"BuildVersionCode: {m_buildOptions.BuildVersionCode}");
             Console.WriteLine($"UnityEditorLocation: {m_buildOptions.UnityEditorLocation}");
             Console.WriteLine($"OutputEditorLog: {m_buildOptions.OutputEditorLog}");
             Console.WriteLine($"ForceScriptInstall: {m_buildOptions.ForceScriptInstall}");
@@ -95,6 +101,11 @@ namespace Cake.Unity3D
             if (!string.IsNullOrEmpty(m_buildOptions.BuildVersion))
             {
                 buildArguments += $"--version={m_buildOptions.BuildVersion} ";
+            }
+
+            if (!string.IsNullOrEmpty(m_buildOptions.BuildVersionCode))
+            {
+                buildArguments += $"--version-code={m_buildOptions.BuildVersionCode} ";
             }
 
             // Create the process using the Unity editor and arguments above.

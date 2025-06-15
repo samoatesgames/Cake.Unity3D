@@ -21,8 +21,6 @@ namespace Cake.Unity3D
 
             var options = ParseCommandLineOptions();
 
-            PlayerSettings.bundleVersion = ParseOption(options, "version", PlayerSettings.bundleVersion);
-
             var buildPlayerOptions = new BuildPlayerOptions
             {
                 scenes = FindEnabledEditorScenes(),
@@ -30,6 +28,13 @@ namespace Cake.Unity3D
                 target = ParseOption(options, "platform", BuildTarget.StandaloneWindows64),
                 options = BuildOptions.None
             };
+
+            PlayerSettings.bundleVersion = ParseOption(options, "version", PlayerSettings.bundleVersion);
+
+            if (buildPlayerOptions.target == BuildTarget.Android)
+            {
+                PlayerSettings.Android.bundleVersionCode = ParseOption(options, "version-code", PlayerSettings.Android.bundleVersionCode);
+            }
 
             var report = BuildPipeline.BuildPlayer(buildPlayerOptions);
 
